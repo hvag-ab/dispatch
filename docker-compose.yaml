@@ -1,0 +1,130 @@
+version: "3.8"
+
+networks:
+  network:
+    ipam:
+      driver: default
+      config:
+        - subnet: '177.7.0.0/24'
+
+services:
+
+  mysql:
+    image: mysql:5.7.22
+    container_name: hvag-mysql
+    restart: always
+    privileged: true
+    ports:
+      - 3307:3306  # host物理直接映射端口为13306
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD=root # root密码
+      - MYSQL_DATABASE=celery # 数据库名称
+      - MYSQL_PASSWORD=hvag # 用户密码 root授权的用户密码
+    volumes:
+      - mysql-datavolume:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/my.cnf # 挂载配置文件
+      - ./mysql/init:/docker-entrypoint-initdb.d/ # 挂载数据初始化sql脚本
+    networks:
+      network:
+        ipv4_address: 177.7.0.11
+
+
+  server:
+    build:
+      context: ./
+      dockerfile: ./djcelery/dockerfile_server
+    container_name: hvag-server
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - REDIS_TCP_ADDR=redis://redis:6379
+      - DB=mysql
+    restart: always
+    ports:
+      - '8899:8899'
+    depends_on:
+      - redis
+      - mysql
+    command:
+      - /bin/bash
+      - -c
+      - |
+        chmod +x ./entrypoint.sh
+        ./entrypoint.sh
+    networks:
+      network:
+        ipv4_address: 177.7.0.12
+
+  celery:
+    build:
+      context: ./
+      dockerfile: ./djcelery/dockerfile_server
+    command:
+      - /bin/bash
+      - -c
+      - |
+        chmod +x ./run_celery.sh
+        ./run_celery.sh
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - REDIS_TCP_ADDR=redis://redis:6379
+      - DB=mysql
+    depends_on:
+      - redis
+    networks:
+      network:
+        ipv4_address: 177.7.0.13
+
+  celery-beat:
+    build:
+      context: ./
+      dockerfile: ./djcelery/dockerfile_server
+    command:
+      - /bin/bash
+      - -c
+      - |
+        chmod +x ./run_beat.sh
+        ./run_beat.sh
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - REDIS_TCP_ADDR=redis://redis:6379
+      - DB=mysql
+    restart: always
+    depends_on:
+      - redis
+      - server
+      - celery
+      - mysql
+    networks:
+      network:
+        ipv4_address: 177.7.0.15
+  #
+
+
+  redis:
+    image: redis
+    container_name: redis
+    hostname: redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis/redis.conf:/etc/redis/redis.conf:rw
+      - redis-datavolume:/data:rw # 通过挂载给redis数据备份
+    command:
+      redis-server /etc/redis/redis.conf --appendonly yes
+    networks:
+      network:
+        ipv4_address: 177.7.0.14
+
+
+
+volumes: # 自定义数据卷，位于宿主机/var/lib/docker/volumes内
+  redis-datavolume:
+  mysql-datavolume:

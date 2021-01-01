@@ -1,0 +1,10 @@
+gunicorn==19.9.0
+Django
+celery
+redis
+djangorestframework
+gevent
+django-celery-beat
+pymysql
+# 如果出现 AttributeError: type object 'TimeZoneField' has no attribute 'CHOICES'
+# pip uninstall django-timezone-field  然后 pip installed django-timezone-field==4.0

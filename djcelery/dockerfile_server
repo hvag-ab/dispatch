@@ -1,0 +1,23 @@
+FROM python:3.8
+
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1  # revents Python from writing pyc files to disc (equivalent to python -B option)
+ENV PYTHONUNBUFFERED 1 # Prevents Python from buffering stdout and stderr (equivalent to python -u option)
+
+# 注意docker-compose中的build context: ./ #设定上下文根目录，然后以该目录（docker-compose.yml所在的目录）为准指定
+WORKDIR /app
+COPY /djcelery /app
+
+COPY djcelery/pip.conf /root/.pip/pip.conf
+COPY djcelery/requirements.txt /requirements.txt
+#RUN pip install --upgrade pip \
+RUN pip install -r requirements.txt \
+    && rm /usr/bin/mysql*
+
+RUN mkdir gunicorn_log
+
+
+COPY djcelery/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+# ENTRYPOINT ["/entrypoint.sh"]

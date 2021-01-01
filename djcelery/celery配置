@@ -1,0 +1,418 @@
+CELERY_DEFAULT_QUEUE：默认队列
+BROKER_URL  : 代理人的网址
+CELERY_RESULT_BACKEND：结果存储地址
+CELERY_TASK_SERIALIZER：任务序列化方式
+CELERY_RESULT_SERIALIZER：任务执行结果序列化方式
+CELERY_TASK_RESULT_EXPIRES：任务过期时间
+CELERY_ACCEPT_CONTENT：指定任务接受的内容序列化类型(序列化)，一个列表；
+.celery不能用root用户启动的话需要在主配置文件中添加platforms.C_FORCE_ROOT = True
+# UTC
+CELERY_ENABLE_UTC = True
+CELERY_TIMEZONE = 'Asia/Shanghai'
+
+$ python app.py
+$ celery worker -A celery_app -l info
+
+
+result = task1.add.delay(2, 18) 返回的是一个任务对象，通过 delay 函数的方式可以发现这个过程是非阻塞的，这个任务对象有一个方法：
+
+r.ready()     # 查看任务状态，返回布尔值,  任务执行完成, 返回 True, 否则返回 False.
+r.wait()      # 等待任务完成, 返回任务执行结果，很少使用；
+r.get(timeout=1)       # 获取任务执行结果，可以设置等待时间
+r.result      # 任务执行结果.
+r.state       # PENDING, START, SUCCESS，任务当前的状态
+r.status      # PENDING, START, SUCCESS，任务当前的状态
+r.successful  # 任务成功返回true
+r.traceback  # 如果任务抛出了一个异常，你也可以获取原始的回溯信息
+定时任务
+定时任务的功能类似 crontab，可以完成每日统计任务等。首先我们需要配置一下 schedule，通过改造上面的配置文件，添加 CELERYBEAT_SCHEDULE 配置：
+
+import datetime
+from celery.schedules import crontab
+
+CELERYBEAT_SCHEDULE = {
+    'task1-every-1-min': {
+        'task': 'celery_app.task1.add',
+        'schedule': datetime.timedelta(seconds=60),
+        'args': (2, 15),
+    },
+    'task2-once-a-day': {
+        'task': 'celery_app.task2.mul',
+        'schedule': crontab(hour=15, minute=23),
+        'args': (3, 6),
+    }
+}
+task 指定要执行的任务；schedule 表示计划的时间，datetime.timedelta(seconds=60) 表示间隔一分钟，这里其实也可以是 crontab(minute='*/1') 来替换；args 表示要传递的参数。
+
+启动 celery beat:
+
+$ celery worker -A celery_app -l info
+
+
+我们目前是用两个窗口来执行 woker 和 beat 。当然也可以只使用一个窗口来运行（仅限linux系统）：
+
+$ celery -B -A celery_app worker -l info
+
+
+celery.task 装饰器
+@celery.task()
+def name():
+    pass
+task() 方法将任务修饰成异步， name 可以显示指定的任务名字；serializer 指定序列化的方式；bind 一个bool值，若为True，则task实例会作为第一个参数传递到任务方法中，可以访问task实例的所有的属性，即前面反序列化中那些属性。
+
+@task(bind=True)  # 第一个参数是self，使用self.request访问相关的属性
+def add(self, x, y):
+    logger.info(self.request.id)
+base 可以指定任务积累，可以用来定义回调函数：
+
+import celery
+
+class MyTask(celery.Task):
+    # 任务失败时执行
+    def on_failure(self, exc, task_id, args, kwargs, einfo):
+        print('{0!r} failed: {1!r}'.format(task_id, exc))
+    # 任务成功时执行
+    def on_success(self, retval, task_id, args, kwargs):
+        pass
+    # 任务重试时执行
+    def on_retry(self, exc, task_id, args, kwargs, einfo):
+        pass
+
+@task(base=MyTask)
+def add(x, y):
+    raise KeyError()
+
+exc:失败时的错误的类型；
+task_id:任务的id；
+args:任务函数的参数；
+kwargs:参数；
+einfo:失败时的异常详细信息；
+retval:任务成功执行的返回值；
+总结
+网上找了一份比较常用的配置文件，需要的时候可以参考下：
+
+# 注意，celery4版本后，CELERY_BROKER_URL改为BROKER_URL
+BROKER_URL = 'amqp://username:passwd@host:port/虚拟主机名'
+# 指定结果的接受地址
+CELERY_RESULT_BACKEND = 'redis://username:passwd@host:port/db'
+# 指定任务序列化方式
+CELERY_TASK_SERIALIZER = 'json'
+# 指定结果序列化方式
+CELERY_RESULT_SERIALIZER = 'json'
+# 任务过期时间,celery任务执行结果的超时时间
+CELERY_TASK_RESULT_EXPIRES = 60 * 20
+# 指定任务接受的序列化类型.
+CELERY_ACCEPT_CONTENT = ["msgpack","json"]
+# 任务发送完成是否需要确认，这一项对性能有一点影响
+CELERY_ACKS_LATE = True
+# 压缩方案选择，可以是zlib, bzip2，默认是发送没有压缩的数据
+CELERY_MESSAGE_COMPRESSION = 'zlib'
+# 规定完成任务的时间
+CELERYD_TASK_TIME_LIMIT = 5  # 在5s内完成任务，否则执行该任务的worker将被杀死，任务移交给父进程
+# celery worker的并发数，默认是服务器的内核数目,也是命令行-c参数指定的数目
+CELERYD_CONCURRENCY = 4
+# celery worker 每次去rabbitmq预取任务的数量
+CELERYD_PREFETCH_MULTIPLIER = 4
+# 每个worker执行了多少任务就会死掉，默认是无限的
+CELERYD_MAX_TASKS_PER_CHILD = 40
+# 这是使用了django-celery默认的数据库调度模型,任务执行周期都被存在你指定的orm数据库中
+# CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+
+# 设置默认的队列名称，如果一个消息不符合其他的队列就会放在默认队列里面，如果什么都不设置的话，数据都会发送到默认的队列中
+CELERY_DEFAULT_QUEUE = "default"
+# 设置详细的队列
+CELERY_QUEUES = {
+    "default": { # 这是上面指定的默认队列
+        "exchange": "default",
+        "exchange_type": "direct",
+        "routing_key": "default"
+    },
+    "topicqueue": { # 这是一个topic队列 凡是topictest开头的routing key都会被放到这个队列
+        "routing_key": "topic.#",
+        "exchange": "topic_exchange",
+        "exchange_type": "topic",
+    },
+    "task_eeg": { # 设置扇形交换机
+        "exchange": "tasks",
+        "exchange_type": "fanout",
+        "binding_key": "tasks",
+    },
+
+}
+
+2：使用更多的queue（不要只用默认的）
+Celery非常容易设置，通常它会使用默认的queue用来存放任务（除非你显示指定其他queue）。通常写法如下：
+
+    @app.task()
+    def my_taskA(a, b, c):
+        print("doing something here...")
+
+    @app.task()
+    def my_taskB(x, y):
+        print("doing something here...")
+这两个任务都会在同一个queue里面执行，这样写其实很有吸引力的，因为你只需要使用一个decorator就能实现一个异步任务。作者关心的是taskA和taskB没准是完全两个不同的东西，或者一个可能比另一个更加重要，那么为什么要把它们放到一个篮子里面呢？（鸡蛋都不能放到一个篮子里面，是吧！）没准taskB其实不怎么重要，但是量太多，以至于重要的taskA反而不能快速地被worker进行处理。增加workers也解决不了这个问题，因为taskA和taskB仍然在一个queue里面执行。
+
+3:使用具有优先级的workers
+为了解决2里面出现的问题，我们需要让taskA在一个队列Q1，而taskB在另一个队列Q2执行。同时指定x workers去处理队列Q1的任务，然后使用其它的workers去处理队列Q2的任务。使用这种方式，taskB能够获得足够的workers去处理，同时一些优先级workers也能很好地处理taskA而不需要进行长时间的等待。
+
+首先手动定义queue
+from kombu import Exchange, Queue
+
+CELERY_QUEUES = (
+    Queue('default', Exchange('default'), routing_key='default'),
+    Queue('for_task_A', Exchange('for_task_A'), routing_key='for_task_A'),
+    Queue('for_task_B', Exchange('for_task_B'), routing_key='for_task_B'),
+)
+然后定义routes用来决定不同的任务去哪一个queue
+
+CELERY_ROUTES = {
+    'my_taskA': {'queue': 'for_task_A', 'routing_key': 'for_task_A'},
+    'my_taskB': {'queue': 'for_task_B', 'routing_key': 'for_task_B'},
+}
+
+最后再为每个task启动不同的
+
+celery worker -E -l INFO -n workerA -Q for_task_A celery worker -E -l INFO -n workerB -Q for_task_B
+如果在我们项目中，会涉及到大量文件转换问题，有大量小于1mb的文件转换，同时也有少量将近20mb的文件转换，小文件转换的优先级是最高的，同时不用占用很多时间，但大文件的转换很耗时。如果将转换任务放到一个队列里面，那么很有可能因为出现转换大文件，导致耗时太严重造成小文件转换延时的问题。
+
+
+
+为每个任务设置名称
+Celery根据模块的导入方式创建任务名称。这有点危险。为每个任务明确设置名称。最好使用proj.package.module.function_name约定，以避免与第三方包装冲突。
+
+@app.task(name='proj.package.tasks.add')
+def add(a, b):
+    return a + b
+优先使用apply_async而不是延迟
+芹菜给我们提供了两种方法delay()和apply_async()调用任务。延迟是使用默认配置预先配置的，并且仅需要将传递给任务的参数。
+
+add.delay(10, 5)
+add.delay(a=10, b=5)
+这就对了。使用给定参数延迟函数处理。它运作良好，在许多情况下，这是我们所需要的，但并不是未来的证明。
+
+Apply_async更复杂，但是比预配置的延迟更强大。最好对特定设置的选项使用apply_async。
+
+add.apply_async(queue='low_priority', args=(10, 5))
+add.apply_async(queue='high_priority', kwargs={'a': 10, 'b': 5})
+始终定义队列
+始终将队列定义为优先级高的作业。您可能希望至少有3个队列，一个用于高优先级任务，第二个用于低优先级任务，默认一个用于普通优先级。
+
+在上一篇有关配置的文章中，我进行了设置app.conf.task_create_missing_queues = True。这样，我将创建队列委托给Celery。我可以将apply_async与我想要的任何队列一起使用，而Celery将为我处理它。
+
+必须进行一项更改才能使用不同的队列。工作人员必须了解它们，否则工作人员将仅侦听默认队列。
+
+使用以下命令运行worker：
+
+(venv) $ celery -A proj worker -l info -Q default,low_priority,high_priority
+ 警告！
+Celery 4令人讨厌，很难在工作程序中发现错误。
+它仅在-Q参数之后的4个定义的队列中起作用。如果您需要更多的队列，只需增加更多的工作人员即可。
+
+这种方法的利润在哪里？显然是并发的。-c参数定义工作者创建的并发线程数。
+
+(venv) $ celery -A proj worker -l info -Q default -c 2
+(venv) $ celery -A proj worker -l info -Q low_priority -c 1
+(venv) $ celery -A proj worker -l info -Q high_priority -c 4
+并具有自动缩放工人
+
+(venv) $ celery -A proj worker -l info -Q default --autoscale 4,2
+(venv) $ celery -A proj worker -l info -Q low_priority --autoscale 2,1
+(venv) $ celery -A proj worker -l info -Q high_priority --autoscale 8,4
+这样，您可以控制任务的消耗速度。
+
+并发数应保持接近CPU核心数。如果服务器具有4个核心CPU，则最大并发数应为4。当然，更大的数字将起作用，但效率较低。
+
+单个队列中的优先级
+任务分成多个队列，然后将所有内容放入单个队列总是更好。但是，有时即使在单个队列中，任务也可能具有不同的优先级。为避免FIFO，最好使用0到9之间的整数范围定义优先级。
+
+add.apply_async(queue='high_priority', priority=0, kwargs={'a': 10, 'b': 5})
+add.apply_async(queue='high_priority', priority=5, kwargs={'a': 10, 'b': 5})
+add.apply_async(queue='high_priority', priority=9, kwargs={'a': 10, 'b': 5})
+始终将auto_retry与max_retries一起使用
+当发生特定异常时，自动重试可以重试具有相同输入和任务ID的任务。假设任务调用了外部API，并且偶尔会出现HTTP异常。
+
+当发生其中一种情况时，“自动重试”将获取预期异常和重试任务的列表。在这种情况下，请始终设置max_retries边界。永远不要让任务无限重复。
+
+from httplib import HTTPException
+
+@app.task(name='proj.package.tasks.fetch_data', auto_retry=[HTTPException], max_retries=3)
+def fetch_data():
+    return call_api()
+ 警告！
+max_retries仅适用于auto_retry和self.retry
+将可重复的工作分成几部分
+如果您有成千上万的对象，最好将它们分块处理。例如，100 000可以将元素拆分为1000每个作业的元素，从而将100作业排入队列。
+
+@celery_app.task(name='proj.package.tasks.process_data')
+def process_data(elements):
+    return process_elements(elements)
+
+process_data.chunks(iter(elements), 100).apply_async(queue='low_priority')
+但是块是顺序的。这意味着工人将彼此消耗。我们可以将块转换为并行消耗的组。
+
+process_data.chunks(iter(elements), 100).group().apply_async(queue='low_priority')
+链接相互依赖的任务
+使用本文中的示例。提取后必须处理数据。与其使用倒计时，不希望提取在处理开始之前结束，而是链接任务并按顺序运行。
+
+fetch_data.apply_async(queue='low_priority', link=process_data.s(queue='low_priority'))
+避免启动同步子任务
+永远不要这样做：
+
+data = fetch_data.delay().get()
+processed_data = process_data.delay(data).get()
+改为这样做：
+
+from celery import chain
+
+processed_data = chain(fetch_data.s(), process_data.s()).apply_async(queue='low_priority').get()
+
+延迟任务并不明显，并且像往常一样，当芹菜进来时，我们必须注意一些事情。
+
+ INFO
+本文是关于Celery 4.0和4.1的。如果您来自未来，这也可能适用于您。
+倒数
+任务延迟的第一个也是最简单的方法是使用countdown参数。倒数时间为Int，代表以秒表示的延迟时间。
+
+my_task.apply_async(countdown=10)
+优点
+使用方便
+可读的
+缺点
+enable_utc设置为False并且定义了时区时不起作用
+预计到达时间
+第二种方法是使用eta参数，它需要执行的确切日期和时间。与本机datetime对象，日期为String或Pendulum实例完美配合。
+
+my_task.apply_async(eta=datetime.now(pytz.timezone("Europe/Warsaw"))
+my_task.apply_async(eta="2018-02-19 13:41:14+01:00")
+my_task.apply_async(eta=pendulum.now("Europe/Warsaw"))
+优点
+可读的
+精确
+适用于时区
+缺点
+需要更多的工作
+可见性超时
+有时需要很长的超时时间，例如8小时或更长时间。对于如此长的超时时间，芹菜需要其他配置。
+
+app = Celery("project_name", broker="redis://localhost:6379", backend="redis://localhost:6379")
+
+max_timeout_in_seconds = 21600  # 6h this is arbitrary
+app.conf.broker_transport_options = {"visibility_timeout": max_timeout_in_seconds}
+如果不使用visibility_timeout，则可能会丢弃超时时间非常长的任务或将其执行多次。每位在职工人一次或两次。
+
+
+
+
+
+
+
+
+
+
+
+
+Usage: celery worker [options]
+
+Start worker instance.
+
+Examples::
+
+    celery worker --app=proj -l info
+    celery worker -A proj -l info -Q hipri,lopri
+
+    celery worker -A proj --concurrency=4
+    celery worker -A proj --concurrency=1000 -P eventlet
+
+    celery worker --autoscale=10,0
+
+Options:
+  -A APP, --app=APP     app instance to use (e.g. module.attr_name)
+  -b BROKER, --broker=BROKER
+                        url to broker.  default is 'amqp://guest@localhost//'
+  --loader=LOADER       name of custom loader class to use.
+  --config=CONFIG       Name of the configuration module
+  --workdir=WORKING_DIRECTORY
+                        Optional directory to change to after detaching.
+  -C, --no-color
+  -q, --quiet
+  -c CONCURRENCY, --concurrency=CONCURRENCY
+                        Number of child processes processing the queue. The
+                        default is the number of CPUs available on your
+                        system.
+  -P POOL_CLS, --pool=POOL_CLS
+                        Pool implementation: prefork (default), eventlet,
+                        gevent, solo or threads.
+  --purge, --discard    Purges all waiting tasks before the daemon is started.
+                        **WARNING**: This is unrecoverable, and the tasks will
+                        be deleted from the messaging server.
+  -l LOGLEVEL, --loglevel=LOGLEVEL
+                        Logging level, choose between DEBUG, INFO, WARNING,
+                        ERROR, CRITICAL, or FATAL.
+  -n HOSTNAME, --hostname=HOSTNAME
+                        Set custom hostname, e.g. 'w1.%h'. Expands: %h
+                        (hostname), %n (name) and %d, (domain).
+  -B, --beat            Also run the celery beat periodic task scheduler.
+                        Please note that there must only be one instance of
+                        this service.
+  -s SCHEDULE_FILENAME, --schedule=SCHEDULE_FILENAME
+                        Path to the schedule database if running with the -B
+                        option. Defaults to celerybeat-schedule. The extension
+                        ".db" may be appended to the filename. Apply
+                        optimization profile.  Supported: default, fair
+  --scheduler=SCHEDULER_CLS
+                        Scheduler class to use. Default is
+                        celery.beat.PersistentScheduler
+  -S STATE_DB, --statedb=STATE_DB
+                        Path to the state database. The extension '.db' may be
+                        appended to the filename. Default: None
+  -E, --events          Send events that can be captured by monitors like
+                        celery events, celerymon, and others.
+  --time-limit=TASK_TIME_LIMIT
+                        Enables a hard time limit (in seconds int/float) for
+                        tasks.
+  --soft-time-limit=TASK_SOFT_TIME_LIMIT
+                        Enables a soft time limit (in seconds int/float) for
+                        tasks.
+  --maxtasksperchild=MAX_TASKS_PER_CHILD
+                        Maximum number of tasks a pool worker can execute
+                        before it's terminated and replaced by a new worker.
+  -Q QUEUES, --queues=QUEUES
+                        List of queues to enable for this worker, separated by
+                        comma. By default all configured queues are enabled.
+                        Example: -Q video,image
+  -X EXCLUDE_QUEUES, --exclude-queues=EXCLUDE_QUEUES
+  -I INCLUDE, --include=INCLUDE
+                        Comma separated list of additional modules to import.
+                        Example: -I foo.tasks,bar.tasks
+  --autoscale=AUTOSCALE
+                        Enable autoscaling by providing max_concurrency,
+                        min_concurrency. Example:: --autoscale=10,3 (always
+                        keep 3 processes, but grow to 10 if necessary)
+  --autoreload          Enable autoreloading.
+  --no-execv            Don't do execv after multiprocessing child fork.
+  --without-gossip      Do not subscribe to other workers events.
+  --without-mingle      Do not synchronize with other workers at startup.
+  --without-heartbeat   Do not send event heartbeats.
+  --heartbeat-interval=HEARTBEAT_INTERVAL
+                        Interval in seconds at which to send worker heartbeat
+  -O OPTIMIZATION
+  -D, --detach
+  -f LOGFILE, --logfile=LOGFILE
+                        Path to log file. If no logfile is specified, stderr
+                        is used.
+  --pidfile=PIDFILE     Optional file used to store the process pid. The
+                        program will not start if this file already exists and
+                        the pid is still alive.
+  --uid=UID             User id, or user name of the user to run as after
+                        detaching.
+  --gid=GID             Group id, or group name of the main group to change to
+                        after detaching.
+  --umask=UMASK         Effective umask (in octal) of the process after
+                        detaching.  Inherits the umask of the parent process
+                        by default.
+  --executable=EXECUTABLE
+                        Executable to use for the detached process.
+  --version             show program's version number and exit
+  -h, --help            show this help message and exit
+
+
