@@ -89,3 +89,7 @@ EMAIL_HOST_USER = 'qq邮箱'  # 帐号
 EMAIL_HOST_PASSWORD = 'qq授权码'  # 授权码
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 ADMINS = [("testuser", "test.user@qq.com"), ]
+
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'periodtask.custom_exception.exception_handler',
+}

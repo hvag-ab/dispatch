@@ -132,4 +132,73 @@ CELERY_ROUTES = {
 
 celery -A tasks worker -l info -n workerA.%h -Q for_task_A
 
+
+、time_limit和soft_time_limit区别
+
+time_limit : 执行超时，结束signal 9 (SIGKILL) 执行的子进程，状态："status": "FAILURE" 超过直接杀死当前执行任务的worker 日志会抛出一个错误
+soft_time_limit ：执行超时，用一个异常SoftTimeLimitExceeded来捕捉，状态："status": "SUCCESS"
+目前只能在linux操作系统才有效
+
+handler_upload_data.apply_async((full_path,), soft_time_limit=10)
+handler_upload_data.apply_async((full_path,), time_limit=10)
+
+celery指定任务执行时间
+import datetime
+ 
+ 
+def in_run_time(start, end):
+
+    用来给任务判断，在不在可执行的时间里，是不是需要丢到定时里
+    Args:
+        start: 任务开始执行的时间，格式如 "00:00:00"
+        end:  任务停止执行的时间，格式如 "07:00:00"
+    Returns:
+  
+    current_date = str(datetime.datetime.now().date()) + " "
+    start_time = datetime.datetime.strptime(current_date + start, '%Y-%m-%d %H:%M:%S')
+    end_time = datetime.datetime.strptime(current_date + end, '%Y-%m-%d %H:%M:%S')
+    current_date = datetime.datetime.now()
+    if (start_time < current_date) and (current_date < end_time):
+        return True
+    else:
+        return False
+ 
+ 
+def get_nextday_run_time(start, end):
+   
+    根据当前时间，和起止时间，得出该任务应该执行的时间。
+    Args:
+        start: 任务开始执行的时间，格式如 "00:00:00"
+        end:  任务停止执行的时间，格式如 "07:00:00"
+    Returns:
+  
+    current_date = datetime.datetime.now().date()
+    end_time = datetime.datetime.strptime(str(current_date) + " " + end, '%Y-%m-%d %H:%M:%S')
+    current_time = datetime.datetime.now()
+    # 如果现在还没到今天的执行时间，那么任务放到今天的执行时间来执行
+    if current_time > end_time:
+        current_date += datetime.timedelta(days=1)
+    run_time_str = str(current_date) + " " + start
+    # 执行-北京时间
+    run_time = datetime.datetime.strptime(run_time_str, '%Y-%m-%d %H:%M:%S')
+    run_time = run_time + datetime.timedelta(hours=-8)
+    return run_time
+ 
+ 
+def get_run_time_by_bj_time(bj_time):
+    
+    将时间格式字符串转换为datetime格式
+    Args:
+        bj_time: 指定执行时间 type-str 如 "2019-08-21 13:21:00"
+    Returns:
+  
+    run_time = datetime.datetime.strptime(bj_time, '%Y-%m-%d %H:%M:%S')
+    run_time = run_time + datetime.timedelta(hours=-8)
+    return run_time
+    
+start = "00:00:00"
+end = "07:00:00"
+work.apply_async(args=[scan_data], eta=get_nextday_run_time(start, end), 
+                 queue="队列名，没有可删除参数", routing_key="队列key，没有可删除参数")
+
 """

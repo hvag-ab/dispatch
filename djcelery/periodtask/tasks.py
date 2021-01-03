@@ -4,7 +4,7 @@ from django.conf import settings
 from .utils import update_job
 
 
-@shared_task
+@shared_task(time_limit=None)
 @update_job
 def run_shell(**kwargs):
     pyname = kwargs.get('pyname')

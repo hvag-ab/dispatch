@@ -122,7 +122,9 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# 如果USE_TZ设置为True时，Django会使用系统默认设置的时区，此时的TIME_ZONE不管有没有设置都不起作用
+# 如果USE_TZ 设置为False,TIME_ZONE = 'Asia/Shanghai', 则使用上海的UTC时间。
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

@@ -5,17 +5,6 @@ from functools import wraps
 from django_celery_beat.models import PeriodicTask,IntervalSchedule,CrontabSchedule
 from .models import Job
 
-"""
-#基于Crontab 创建 
-schedule, _ = CrontabSchedule.objects.get_or_create(
-   minute='30',
-   hour='*',
-   day_of_week='*',
-   day_of_month='*',
-   month_of_year='*',
-   timezone=pytz.timezone('Asia/Shanghai')
-)
-"""
 
 class CeleryBeatTask:
 
@@ -32,7 +21,7 @@ class CeleryBeatTask:
         return bol
 
     @classmethod
-    def create_interval(cls,interval:int, name:str, task:str='app名.tasks.任务函数名', expires=None, *arg,**kwargs):
+    def create_interval(cls,interval:int, name:str, task:str='app名.tasks.任务函数名', expires=None, **kwargs):
         # interval int 每隔多少秒
         """
         IntervalSchedule.DAYS 固定间隔天数
@@ -52,23 +41,20 @@ class CeleryBeatTask:
             name=name,  # simply describes this periodic task.
             task=task,  # name of task.
         )
-        if arg:
-            arg = json.dumps(arg)
-            dic['args'] = arg
         if kwargs:
+            kwargs['name'] = name
             kwargs = json.dumps(kwargs)
             dic['kwargs'] = kwargs
-        print(dic)
         pt = PeriodicTask.objects.create(**dic)
         return cls(pt)
 
     @classmethod
-    def create_crontab(cls, name:str,minute="30",hour="*",day_of_week="*",day_of_month='*', task:str='app名.tasks.任务函数名', expires=None, *arg,**kwargs):
+    def create_crontab(cls, name:str,minute="30",hour="*",day_of_week="*",day_of_month='*', task:str='app名.tasks.任务函数名', expires=None, **kwargs):
         schedule, _ = CrontabSchedule.objects.get_or_create(
-            minute=minute,
-            hour=hour,
-            day_of_week=day_of_week,
-            day_of_month=day_of_month,
+            minute=str(minute),
+            hour=str(hour),
+            day_of_week=str(day_of_week),
+            day_of_month=str(day_of_month),
             month_of_year='*',
             timezone=pytz.timezone('Asia/Shanghai')
         )
@@ -78,10 +64,8 @@ class CeleryBeatTask:
             name=name,  # simply describes this periodic task.
             task=task,  # name of task.
         )
-        if arg:
-            arg = json.dumps(arg)
-            dic['args'] = arg
         if kwargs:
+            kwargs['name'] = name
             kwargs = json.dumps(kwargs)
             dic['kwargs'] = kwargs
         pt = PeriodicTask.objects.create(**dic)
@@ -110,7 +94,10 @@ class CeleryBeatTask:
         """
         删除任务
         """
-        self.periodic_task.delete()
+        if self.periodic_task.enabled == True:
+            return False
+        rows,_ = self.periodic_task.delete()
+        return rows > 0
 
     def update_interval(self,interval:int):
         schedule, created = IntervalSchedule.objects.get_or_create(
@@ -123,10 +110,10 @@ class CeleryBeatTask:
 
     def update_crontab(self, minute:str,hour:str,day_of_week="*",day_of_month='*'):
         schedule, _ = CrontabSchedule.objects.get_or_create(
-            minute=minute,
-            hour=hour,
-            day_of_week=day_of_week,
-            day_of_month=day_of_month,
+            minute=str(minute),
+            hour=str(hour),
+            day_of_week=str(day_of_week),
+            day_of_month=str(day_of_month),
             month_of_year='*',
             timezone=pytz.timezone('Asia/Shanghai')
         )
