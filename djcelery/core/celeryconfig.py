@@ -1,6 +1,6 @@
 import os
 # 设置代理人broker
-CELERY_BROKER_URL = os.environ.get('REDIS_TCP_ADDR', "redis://127.0.0.1:6379")
+CELERY_BROKER_URL = os.environ.get('REDIS_TCP_ADDR', "redis://127.0.0.1:6379/9")
 # 指定 结果Backend
 CELERY_RESULT_BACKEND = os.environ.get('REDIS_TCP_ADDR', "redis://127.0.0.1:6379")
 # BROKER_POOL_LIMIT = 50
@@ -92,4 +92,7 @@ ADMINS = [("testuser", "test.user@qq.com"), ]
 
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'periodtask.custom_exception.exception_handler',
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
 }

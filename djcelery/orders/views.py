@@ -33,6 +33,7 @@ $ ./manage.py migrate
 $ python3 -m celery -A core.celery worker --loglevel INFO (-P eventlet windows下使用) 
 $ python3 -m celery -A core.celery beat --loglevel INFO  # You need to run on other terminal.
 $ ./manage.py shell
+$ python3 -m celery purge -Q [queue_name] 清空队列
 """
 
 ##########

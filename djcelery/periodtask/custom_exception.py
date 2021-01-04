@@ -11,7 +11,7 @@ from django.conf import settings
 
 def exception_handler(exc, content):
 
-    msg = exc.detail
+    msg = None
 
     if isinstance(exc, (NotAuthenticated, AuthenticationFailed)):
         status = 401
@@ -23,9 +23,11 @@ def exception_handler(exc, content):
 
     elif isinstance(exc, ValidationError):
         status = 407
+        msg = exc.detail
 
     elif isinstance(exc, MethodNotAllowed):
         status = 405
+        msg = exc.detail
 
     elif isinstance(exc, Http404):
         # 更改返回的状态为为自定义错误类型的状态码
@@ -34,12 +36,15 @@ def exception_handler(exc, content):
 
     else:
         # 调试模式
-        print(traceback.format_exc())
-        if settings.DEBUG:
-            raise exc
+        print(traceback.format_exc(limit=2))
+        # if settings.DEBUG:
+        #     raise exc
         # 正式环境，屏蔽500
         status = 500
-        msg = exc.message
+        msg = traceback.format_exc(limit=2)
+        data = content['request'].data or content['request'].query_params
+        msg += '\n->传入的参数：' + str(data)
+
 
     return Response(status=status,data=dict(code=False,msg=msg))
 

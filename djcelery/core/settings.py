@@ -78,23 +78,28 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',   # 数据库引擎
-        'NAME': 'celery',       # 你要存储数据的库名，事先要创建之
-        'USER': 'root',         # 数据库用户名
-        'PASSWORD': 'hvag',     # 密码
-        'HOST': os.environ.get('DB','localhost'),    # 主机
-        'PORT': '3306',         # 数据库使用的端口
-        'OPTIONS': {#取消外键检查 否则删除带外键字段的记录会报错
-            "init_command": "SET foreign_key_checks = 0;",
-        }
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
-
-
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',   # 数据库引擎
+#         'NAME': 'celery',       # 你要存储数据的库名，事先要创建之
+#         'USER': 'root',         # 数据库用户名
+#         'PASSWORD': 'hvag',     # 密码
+#         'HOST': os.environ.get('DB','localhost'),    # 主机
+#         'PORT': '3306',         # 数据库使用的端口
+#         'OPTIONS': {#取消外键检查 否则删除带外键字段的记录会报错
+#             "init_command": "SET foreign_key_checks = 0;",
+#         }
+#     }
+#
+#
+# }
 
 
 # Password validation

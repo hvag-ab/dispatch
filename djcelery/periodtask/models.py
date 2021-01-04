@@ -1,5 +1,7 @@
 from django.db import models
-
+from django_celery_beat.models import PeriodicTask
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # Create your models here.
 
 class Job(models.Model):
@@ -7,17 +9,20 @@ class Job(models.Model):
 
     # list of statuses that job can have
     STATUSES = (
+        ('waiting', 'waiting'),
         ('pending', 'pending'),
         ('finished', 'finished'),
         ('failed', 'failed'),
     )
-
-    task_name = models.CharField(max_length=20)
-    func_name = models.CharField(max_length=20)
+    periodtask = models.OneToOneField(PeriodicTask,on_delete=models.CASCADE,default=None)
     status = models.CharField(choices=STATUSES, max_length=20)
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    argument = models.CharField(max_length=255)
     result = models.CharField(null=True,max_length=255)
 
+
+
+@receiver(post_save, sender=PeriodicTask)
+def create_job(sender, instance, created, **kwargs):
+    if created:
+        Job.objects.create(periodtask=instance, status='waiting')
