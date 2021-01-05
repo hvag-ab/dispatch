@@ -18,7 +18,7 @@ class Job(models.Model):
     status = models.CharField(choices=STATUSES, max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    result = models.CharField(null=True,max_length=255)
+    result = models.TextField(null=True)
 
 
 

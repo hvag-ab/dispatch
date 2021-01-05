@@ -77,7 +77,7 @@ CELERY_QUEUES = {
 }
 
 # celery beat配置（周期性任务设置）
-ELERY_ENABLE_UTC = False
+CELERY_ENABLE_UTC = False
 DJANGO_CELERY_BEAT_TZ_AWARE = False
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 

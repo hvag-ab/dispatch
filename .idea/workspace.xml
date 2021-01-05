@@ -2,25 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c78cf5f-e00e-4232-b7a2-fe7511b38d6a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/djcelery/.idea/djcelery.iml" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/.idea/djcelery.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/djcelery/core/celeryconfig.py" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/core/celeryconfig.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/core/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/core/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/orders/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/orders/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/orders/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/orders/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/periodtask/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/periodtask/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/periodtask/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/periodtask/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/periodtask/custom_exception.py" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/periodtask/custom_exception.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/periodtask/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/periodtask/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/periodtask/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/periodtask/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/periodtask/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/periodtask/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/periodtask/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/periodtask/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/periodtask/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/periodtask/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/periodtask/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/periodtask/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/run_beat.sh" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/run_beat.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djcelery/run_celery.sh" beforeDir="false" afterPath="$PROJECT_DIR$/djcelery/run_celery.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,11 +12,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/djcelery/periodtask/tests.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/djcelery/periodtask/tasks.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -76,7 +53,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/djcelery/periodtask/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
+            <state relative-caret-position="247">
               <caret line="20" selection-start-line="20" selection-end-line="20" />
             </state>
           </provider>
@@ -97,8 +74,41 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/djcelery/periodtask/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="160" column="8" selection-start-line="160" selection-start-column="8" selection-end-line="160" selection-end-column="8" />
+            <state relative-caret-position="-1072">
+              <caret line="181" column="41" lean-forward="true" selection-start-line="181" selection-start-column="41" selection-end-line="181" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/djcelery/core/celeryconfig.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="156">
+              <caret line="76" column="1" lean-forward="true" selection-start-line="76" selection-start-column="1" selection-end-line="76" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/djcelery/core/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="596">
+              <caret line="80" selection-start-line="80" selection-end-line="80" />
+              <folding>
+                <element signature="e#305#314#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/djcelery/core/tasks.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -133,12 +143,13 @@
         <option value="$PROJECT_DIR$/djcelery/periodtask/cusresponse.py" />
         <option value="$PROJECT_DIR$/djcelery/periodtask/serializers.py" />
         <option value="$PROJECT_DIR$/djcelery/periodtask/views.py" />
+        <option value="$PROJECT_DIR$/djcelery/core/celeryconfig.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="661" />
-    <option name="y" value="243" />
+    <option name="x" value="1155" />
+    <option name="y" value="166" />
     <option name="width" value="1761" />
     <option name="height" value="1103" />
   </component>
@@ -148,7 +159,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -165,12 +175,25 @@
               <item name="dispatch" type="b2602c69:ProjectViewProjectNode" />
               <item name="dispatch" type="462c0819:PsiDirectoryNode" />
               <item name="djcelery" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dispatch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dispatch" type="462c0819:PsiDirectoryNode" />
+              <item name="djcelery" type="462c0819:PsiDirectoryNode" />
+              <item name="orders" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dispatch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dispatch" type="462c0819:PsiDirectoryNode" />
+              <item name="djcelery" type="462c0819:PsiDirectoryNode" />
               <item name="periodtask" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -213,16 +236,17 @@
       <workItem from="1609503038860" duration="1333000" />
       <workItem from="1609640163057" duration="4913000" />
       <workItem from="1609760690564" duration="12000" />
+      <workItem from="1609847958981" duration="191000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12190000" />
+    <option name="totallyTimeSpent" value="12381000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="661" y="243" width="1761" height="1103" extended-state="0" />
+    <frame x="1155" y="166" width="1761" height="1103" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26119837" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26410705" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -236,7 +260,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5002909" side_tool="true" weight="0.3299595" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49970913" visible="true" weight="0.3299595" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49970913" visible="true" weight="0.3299595" />
       <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.49970913" weight="0.3299595" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -312,16 +336,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/djcelery/core/tasks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="3" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#30#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/djcelery/periodtask/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
@@ -360,23 +374,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="57">
           <caret line="3" column="2" selection-start-line="3" selection-start-column="2" selection-end-line="3" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/djcelery/core/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1482">
-          <caret line="80" selection-start-line="80" selection-end-line="80" />
-          <folding>
-            <element signature="e#305#314#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/djcelery/core/celeryconfig.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="76" selection-start-line="2" selection-start-column="54" selection-end-line="2" selection-end-column="76" />
         </state>
       </provider>
     </entry>
@@ -443,7 +440,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/djcelery/periodtask/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
+        <state relative-caret-position="247">
           <caret line="20" selection-start-line="20" selection-end-line="20" />
         </state>
       </provider>
@@ -458,10 +455,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/djcelery/core/celeryconfig.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="76" column="1" lean-forward="true" selection-start-line="76" selection-start-column="1" selection-end-line="76" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/djcelery/core/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="596">
+          <caret line="80" selection-start-line="80" selection-end-line="80" />
+          <folding>
+            <element signature="e#305#314#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/djcelery/core/tasks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/djcelery/periodtask/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="160" column="8" selection-start-line="160" selection-start-column="8" selection-end-line="160" selection-end-column="8" />
+        <state relative-caret-position="-1072">
+          <caret line="181" column="41" lean-forward="true" selection-start-line="181" selection-start-column="41" selection-end-line="181" selection-end-column="41" />
         </state>
       </provider>
     </entry>

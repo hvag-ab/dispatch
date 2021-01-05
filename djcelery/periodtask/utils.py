@@ -163,6 +163,7 @@ class CeleryBeatTask:
         )
         dic = dict(
             enabled=True,
+            last_run_at=None,
             interval=schedule,  # we created this above.
             name=name,  # simply describes this periodic task.
             task=task,  # name of task.
@@ -186,6 +187,7 @@ class CeleryBeatTask:
         )
         dic = dict(
             enabled=True,
+            last_run_at=None,
             crontab=schedule,  # we created this above.
             name=name,  # simply describes this periodic task.
             task=task,  # name of task.
@@ -232,6 +234,7 @@ class CeleryBeatTask:
         )
         self.periodic_task.interval=schedule
         self.periodic_task.last_run_at = None
+        self.periodic_task.enabled = True
         self.periodic_task.save()
 
     def update_crontab(self, minute:str,hour:str,day_of_week="*",day_of_month='*'):
@@ -245,6 +248,7 @@ class CeleryBeatTask:
         )
         self.periodic_task.crontab=schedule
         self.periodic_task.last_run_at = None
+        self.periodic_task.enabled = True
         self.periodic_task.save()
 
 
