@@ -1,8 +1,8 @@
 import os
 # 设置代理人broker
-CELERY_BROKER_URL = os.environ.get('REDIS_TCP_ADDR', "redis://127.0.0.1:6379/9")
+CELERY_BROKER_URL = os.environ.get('REDIS_TCP_ADDR', "redis://127.0.0.1:6379/5")
 # 指定 结果Backend
-CELERY_RESULT_BACKEND = os.environ.get('REDIS_TCP_ADDR', "redis://127.0.0.1:6379")
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_TCP_ADDR', "redis://127.0.0.1:6379/6")
 # BROKER_POOL_LIMIT = 50
 # CELERY_REDIS_MAX_CONNECTIONS = 60
 # BROKER_TRANSPORT_OPTIONS = {
@@ -77,8 +77,8 @@ CELERY_QUEUES = {
 }
 
 # celery beat配置（周期性任务设置）
-CELERY_ENABLE_UTC = False
-DJANGO_CELERY_BEAT_TZ_AWARE = False
+# CELERY_ENABLE_UTC = False
+# DJANGO_CELERY_BEAT_TZ_AWARE = False
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # 把要发送的邮件显示再控制台上，方便调试

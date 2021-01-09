@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ.get("SECRET_KEY",'fadfjweioafjwngifoaiwoanfofaw')
 
-DEBUG = int(os.environ.get("DEBUG", default=1))
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
 # 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
@@ -78,28 +78,28 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-    }
-}
-
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',   # 数据库引擎
-#         'NAME': 'celery',       # 你要存储数据的库名，事先要创建之
-#         'USER': 'root',         # 数据库用户名
-#         'PASSWORD': 'hvag',     # 密码
-#         'HOST': os.environ.get('DB','localhost'),    # 主机
-#         'PORT': '3306',         # 数据库使用的端口
-#         'OPTIONS': {#取消外键检查 否则删除带外键字段的记录会报错
-#             "init_command": "SET foreign_key_checks = 0;",
-#         }
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
 #     }
-#
-#
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',   # 数据库引擎
+        'NAME': 'celery',       # 你要存储数据的库名，事先要创建之
+        'USER': 'root',         # 数据库用户名
+        'PASSWORD': 'hvag',     # 密码
+        'HOST': os.environ.get('DB','localhost'),    # 主机
+        'PORT': '3306',         # 数据库使用的端口
+        'OPTIONS': {#取消外键检查 否则删除带外键字段的记录会报错
+            "init_command": "SET foreign_key_checks = 0;",
+        }
+    }
+
+
+}
 
 
 # Password validation
@@ -129,7 +129,7 @@ USE_L10N = True
 
 # 如果USE_TZ设置为True时，Django会使用系统默认设置的时区，此时的TIME_ZONE不管有没有设置都不起作用
 # 如果USE_TZ 设置为False,TIME_ZONE = 'Asia/Shanghai', 则使用上海的UTC时间。
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

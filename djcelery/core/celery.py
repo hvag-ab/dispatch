@@ -14,7 +14,7 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 
 app.autodiscover_tasks()#为了重用 Django APP，通常是在单独的 tasks.py 模块中定义所有任务。Celery 会自动发现这些模块：
 # 解决时区问题,定时任务启动就循环输出
-app.now = timezone.now
+# app.now = timezone.now
 # 强制以root用户运行 django 运行用户实际为非root用户
 # platforms.C_FORCE_ROOT = True
 

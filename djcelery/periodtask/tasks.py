@@ -9,5 +9,6 @@ from .utils import update_job
 def run_shell(**kwargs):
     pyname = kwargs.get('pyname')
     bd = settings.BASE_DIR + '/' + 'script'
+    print('kwarge',kwargs)
     status,output = subprocess.getstatusoutput(f'cd {bd} && python {pyname}.py')
     return output,status

@@ -1,11 +1,10 @@
 from django.urls import path
 
-from .views import CreatPT,StopPT,UpdatePT,StartPT,DeletePT,CreatCrontab,QueryTask
+from .views import StopPT,UpdatePT,StartPT,DeletePT,CreatCrontab,QueryTask
 
 app_name = "pt"
 
 urlpatterns = [
-    path("create", CreatPT.as_view()),
     path("create_cron", CreatCrontab.as_view()),
     path("delete", DeletePT.as_view()),
     path("stop", StopPT.as_view()),

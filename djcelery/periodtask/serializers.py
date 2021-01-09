@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
+from rest_framework.validators import UniqueValidator,ValidationError
 from django_celery_beat.models import PeriodicTask,IntervalSchedule,CrontabSchedule
-from .utils import CeleryBeatTask
+from .celerybeat import task_add
 from .models import Job
 
 
@@ -15,43 +15,24 @@ class TaskSerializer(serializers.Serializer):
     pyname = serializers.CharField(required=True)
 
 
-class IntervalSerializer(TaskSerializer):
-    interval = serializers.IntegerField(min_value=5)
+class CrontabSerializer(TaskSerializer):
+    minute = serializers.CharField(default="0")
+    hour = serializers.CharField(default="*")
+    day_of_week = serializers.CharField(default="*")
+
 
     def save(self):
-
-        interval = self.validated_data['interval']
         name = self.validated_data['name']
         pyname = self.validated_data['pyname']
         task = self.validated_data['task']
-        pt = CeleryBeatTask.create_interval(interval, name, task, pyname=pyname)
-        return pt
-
-
-class CrontabSerializer(TaskSerializer):
-    minute = serializers.IntegerField(min_value=1,max_value=59)
-    hour = serializers.CharField(default="*")
-
-    def validate_hour(self, hour):
-
-        if hour == "*":
-            return hour
-        try:
-            h = int(hour)
-            if h <= 0 or h>= 24:
-                raise serializers.ValidationError("hour必须在0到24之间")
-        except:
-            raise serializers.ValidationError("hour必须在0到24之间 or *")
-        return hour
-
-    def save(self):  # save并不一定是用来create或者 update 可以用来实现自己的逻辑
         minute = self.validated_data['minute']
         hour = self.validated_data['hour']
-        name = self.validated_data['name']
-        pyname = self.validated_data['pyname']
-        task = self.validated_data['task']
-        pt = CeleryBeatTask.create_crontab(name=name,minute=minute,hour=hour,task=task,pyname=pyname)
-        return pt
+        day_of_week = self.validated_data['day_of_week']
+        try:
+            task_id = task_add(name, task, {'minute': minute, 'hour': hour,'day_of_week':day_of_week},task_kwargs={'pyname':pyname})
+            return task_id
+        except Exception as e:
+            raise ValidationError(detail=str(e))
 
 
 class CrontabTaskSerializer(serializers.ModelSerializer):
