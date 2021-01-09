@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdde02e3-a389-4ebb-86cb-332dfb17da2e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/periodtask/celerybeat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/celery.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/celery.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/celeryconfig.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/celeryconfig.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/periodtask/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/periodtask/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/periodtask/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/periodtask/tasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/periodtask/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/periodtask/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/periodtask/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/periodtask/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/periodtask/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/periodtask/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run_beat.sh" beforeDir="false" afterPath="$PROJECT_DIR$/run_beat.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/celerybeat.pid" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,8 +58,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/periodtask/celerybeat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-946">
-              <caret line="37" column="18" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
+            <state relative-caret-position="1824">
+              <caret line="96" column="10" selection-start-line="96" selection-start-column="10" selection-end-line="96" selection-end-column="10" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -296,12 +286,12 @@
       <workItem from="1609645626941" duration="5851000" />
       <workItem from="1609724835430" duration="12036000" />
       <workItem from="1609848177206" duration="1506000" />
-      <workItem from="1610168071068" duration="7736000" />
+      <workItem from="1610168071068" duration="8021000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9242000" />
+    <option name="totallyTimeSpent" value="9527000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="739" y="100" width="1761" height="1103" extended-state="0" />
@@ -473,8 +463,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/periodtask/celerybeat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-946">
-          <caret line="37" column="18" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
+        <state relative-caret-position="1824">
+          <caret line="96" column="10" selection-start-line="96" selection-start-column="10" selection-end-line="96" selection-end-column="10" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>

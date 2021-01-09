@@ -3,6 +3,7 @@ from rest_framework.validators import UniqueValidator,ValidationError
 from django_celery_beat.models import PeriodicTask,IntervalSchedule,CrontabSchedule
 from .celerybeat import task_add
 from .models import Job
+from celery.schedules import crontab
 
 
 class TaskSerializer(serializers.Serializer):
@@ -28,6 +29,10 @@ class CrontabSerializer(TaskSerializer):
         minute = self.validated_data['minute']
         hour = self.validated_data['hour']
         day_of_week = self.validated_data['day_of_week']
+        try:
+            crontab(minute=minute,hour=hour,day_of_week=day_of_week)
+        except Exception as e:
+            raise ValidationError(detail="crontab表达式格式错误")
         try:
             task_id = task_add(name, task, {'minute': minute, 'hour': hour,'day_of_week':day_of_week},task_kwargs={'pyname':pyname})
             return task_id
