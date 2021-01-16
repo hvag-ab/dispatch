@@ -13,8 +13,8 @@ worker_connections = 2000
 # 设置进程文件目录
 pidfile = 'gunicorn.pid'
 # 设置访问日志和错误信息日志路径
-accesslog = './gunicorn_log/gunicorn_acess.log'
-errorlog = './gunicorn_log/gunicorn_error.log'
+# accesslog = './gunicorn_log/gunicorn_acess.log'
+# errorlog = './gunicorn_log/gunicorn_error.log'
 # Whether to send Django output to the error log 
 capture_output = True
 # 设置日志记录水平

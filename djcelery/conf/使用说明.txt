@@ -1,0 +1,5 @@
+sudo sh supervisord.sh
+
+supervisorctl status
+
+supervisorctl shutdown

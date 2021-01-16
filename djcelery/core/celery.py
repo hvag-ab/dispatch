@@ -1,7 +1,7 @@
 import os
 from django.utils import timezone
 from celery import Celery
-# from celery import platforms
+from celery import platforms
 
 # 为celery设置环境变量
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
@@ -16,7 +16,7 @@ app.autodiscover_tasks()#为了重用 Django APP，通常是在单独的 tasks.p
 # 解决时区问题,定时任务启动就循环输出
 # app.now = timezone.now
 # 强制以root用户运行 django 运行用户实际为非root用户
-# platforms.C_FORCE_ROOT = True
+platforms.C_FORCE_ROOT = True
 
 @app.task(bind=True)
 def debug_task(self):
