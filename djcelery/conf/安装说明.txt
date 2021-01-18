@@ -1,0 +1,14 @@
+pip3 install git+https://github.com/Supervisor/supervisor
+
+supervisord
+
+发现 supervisord not found
+运行 find / -name echo_supervisord_conf 查找路径  一般路径在python3 存放的路径里
+
+然后cd 进入这个路径
+
+cp supervisorctl /usr/bin
+cp supervisord /usr/bin
+
+放入bin中 就可以直接使用
+

@@ -1,0 +1,462 @@
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 81, in find_module
+    return imp(module)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 970, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'flowerconfig.py'; 'flowerconfig' is not a package
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 96, in find_module
+    mpart.__path__
+AttributeError: module 'flowerconfig' has no attribute '__path__'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 151, in _import_config_module
+    self.find_module(name)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 162, in find_module
+    return find_module(module)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 98, in find_module
+    raise NotAPackage(package)
+celery.utils.imports.NotAPackage: flowerconfig
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/bin/celery", line 10, in <module>
+    sys.exit(main())
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/__main__.py", line 16, in main
+    _main()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 322, in main
+    cmd.execute_from_commandline(argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 495, in execute_from_commandline
+    super(CeleryCommand, self).execute_from_commandline(argv)))
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/base.py", line 305, in execute_from_commandline
+    return self.handle_argv(self.prog_name, argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 487, in handle_argv
+    return self.execute(command, argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 415, in execute
+    return cls(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/flower/command.py", line 36, in run_from_argv
+    self.app.loader.import_default_modules()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 109, in import_default_modules
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/kombu/utils/objects.py", line 44, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 230, in default_modules
+    tuple(maybe_list(self.app.conf.imports)) +
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/collections.py", line 134, in __getattr__
+    return self[k]
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/collections.py", line 444, in __getitem__
+    return getitem(k)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/collections.py", line 287, in __getitem__
+    return mapping[_key]
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/collections/__init__.py", line 1006, in __getitem__
+    if key in self.data:
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/kombu/utils/objects.py", line 44, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/app/base.py", line 141, in data
+    return self.callback()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/app/base.py", line 959, in _finalize_pending_conf
+    conf = self._conf = self._load_config()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/app/base.py", line 972, in _load_config
+    self.prepare_config(self.loader.conf), self._preconf,
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 238, in conf
+    self._conf = self.read_configuration()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/default.py", line 33, in read_configuration
+    usercfg = self._import_config_module(configname)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 154, in _import_config_module
+    reraise(NotAPackage, NotAPackage(CONFIG_WITH_SUFFIX.format(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/vine/five.py", line 194, in reraise
+    raise value.with_traceback(tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 151, in _import_config_module
+    self.find_module(name)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 162, in find_module
+    return find_module(module)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 98, in find_module
+    raise NotAPackage(package)
+celery.utils.imports.NotAPackage: Error: Module 'flowerconfig.py' doesn't exist, or it's not a valid Python module name.
+Did you mean 'flowerconfig'?
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 81, in find_module
+    return imp(module)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 970, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'flowerconfig.py'; 'flowerconfig' is not a package
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 96, in find_module
+    mpart.__path__
+AttributeError: module 'flowerconfig' has no attribute '__path__'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 151, in _import_config_module
+    self.find_module(name)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 162, in find_module
+    return find_module(module)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 98, in find_module
+    raise NotAPackage(package)
+celery.utils.imports.NotAPackage: flowerconfig
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/bin/celery", line 10, in <module>
+    sys.exit(main())
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/__main__.py", line 16, in main
+    _main()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 322, in main
+    cmd.execute_from_commandline(argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 495, in execute_from_commandline
+    super(CeleryCommand, self).execute_from_commandline(argv)))
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/base.py", line 305, in execute_from_commandline
+    return self.handle_argv(self.prog_name, argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 487, in handle_argv
+    return self.execute(command, argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 415, in execute
+    return cls(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/flower/command.py", line 36, in run_from_argv
+    self.app.loader.import_default_modules()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 109, in import_default_modules
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/kombu/utils/objects.py", line 44, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 230, in default_modules
+    tuple(maybe_list(self.app.conf.imports)) +
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/collections.py", line 134, in __getattr__
+    return self[k]
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/collections.py", line 444, in __getitem__
+    return getitem(k)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/collections.py", line 287, in __getitem__
+    return mapping[_key]
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/collections/__init__.py", line 1006, in __getitem__
+    if key in self.data:
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/kombu/utils/objects.py", line 44, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/app/base.py", line 141, in data
+    return self.callback()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/app/base.py", line 959, in _finalize_pending_conf
+    conf = self._conf = self._load_config()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/app/base.py", line 972, in _load_config
+    self.prepare_config(self.loader.conf), self._preconf,
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 238, in conf
+    self._conf = self.read_configuration()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/default.py", line 33, in read_configuration
+    usercfg = self._import_config_module(configname)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 154, in _import_config_module
+    reraise(NotAPackage, NotAPackage(CONFIG_WITH_SUFFIX.format(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/vine/five.py", line 194, in reraise
+    raise value.with_traceback(tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 151, in _import_config_module
+    self.find_module(name)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 162, in find_module
+    return find_module(module)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 98, in find_module
+    raise NotAPackage(package)
+celery.utils.imports.NotAPackage: Error: Module 'flowerconfig.py' doesn't exist, or it's not a valid Python module name.
+Did you mean 'flowerconfig'?
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 81, in find_module
+    return imp(module)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 970, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'flowerconfig.py'; 'flowerconfig' is not a package
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 96, in find_module
+    mpart.__path__
+AttributeError: module 'flowerconfig' has no attribute '__path__'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 151, in _import_config_module
+    self.find_module(name)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 162, in find_module
+    return find_module(module)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 98, in find_module
+    raise NotAPackage(package)
+celery.utils.imports.NotAPackage: flowerconfig
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/bin/celery", line 10, in <module>
+    sys.exit(main())
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/__main__.py", line 16, in main
+    _main()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 322, in main
+    cmd.execute_from_commandline(argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 495, in execute_from_commandline
+    super(CeleryCommand, self).execute_from_commandline(argv)))
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/base.py", line 305, in execute_from_commandline
+    return self.handle_argv(self.prog_name, argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 487, in handle_argv
+    return self.execute(command, argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 415, in execute
+    return cls(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/flower/command.py", line 36, in run_from_argv
+    self.app.loader.import_default_modules()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 109, in import_default_modules
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/kombu/utils/objects.py", line 44, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 230, in default_modules
+    tuple(maybe_list(self.app.conf.imports)) +
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/collections.py", line 134, in __getattr__
+    return self[k]
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/collections.py", line 444, in __getitem__
+    return getitem(k)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/collections.py", line 287, in __getitem__
+    return mapping[_key]
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/collections/__init__.py", line 1006, in __getitem__
+    if key in self.data:
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/kombu/utils/objects.py", line 44, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/app/base.py", line 141, in data
+    return self.callback()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/app/base.py", line 959, in _finalize_pending_conf
+    conf = self._conf = self._load_config()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/app/base.py", line 972, in _load_config
+    self.prepare_config(self.loader.conf), self._preconf,
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 238, in conf
+    self._conf = self.read_configuration()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/default.py", line 33, in read_configuration
+    usercfg = self._import_config_module(configname)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 154, in _import_config_module
+    reraise(NotAPackage, NotAPackage(CONFIG_WITH_SUFFIX.format(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/vine/five.py", line 194, in reraise
+    raise value.with_traceback(tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 151, in _import_config_module
+    self.find_module(name)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 162, in find_module
+    return find_module(module)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 98, in find_module
+    raise NotAPackage(package)
+celery.utils.imports.NotAPackage: Error: Module 'flowerconfig.py' doesn't exist, or it's not a valid Python module name.
+Did you mean 'flowerconfig'?
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 81, in find_module
+    return imp(module)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 970, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'flowerconfig.py'; 'flowerconfig' is not a package
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 96, in find_module
+    mpart.__path__
+AttributeError: module 'flowerconfig' has no attribute '__path__'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 151, in _import_config_module
+    self.find_module(name)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 162, in find_module
+    return find_module(module)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 98, in find_module
+    raise NotAPackage(package)
+celery.utils.imports.NotAPackage: flowerconfig
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/bin/celery", line 10, in <module>
+    sys.exit(main())
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/__main__.py", line 16, in main
+    _main()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 322, in main
+    cmd.execute_from_commandline(argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 495, in execute_from_commandline
+    super(CeleryCommand, self).execute_from_commandline(argv)))
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/base.py", line 305, in execute_from_commandline
+    return self.handle_argv(self.prog_name, argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 487, in handle_argv
+    return self.execute(command, argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 415, in execute
+    return cls(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/flower/command.py", line 36, in run_from_argv
+    self.app.loader.import_default_modules()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 109, in import_default_modules
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/kombu/utils/objects.py", line 44, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 230, in default_modules
+    tuple(maybe_list(self.app.conf.imports)) +
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/collections.py", line 134, in __getattr__
+    return self[k]
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/collections.py", line 444, in __getitem__
+    return getitem(k)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/collections.py", line 287, in __getitem__
+    return mapping[_key]
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/collections/__init__.py", line 1006, in __getitem__
+    if key in self.data:
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/kombu/utils/objects.py", line 44, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/app/base.py", line 141, in data
+    return self.callback()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/app/base.py", line 959, in _finalize_pending_conf
+    conf = self._conf = self._load_config()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/app/base.py", line 972, in _load_config
+    self.prepare_config(self.loader.conf), self._preconf,
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 238, in conf
+    self._conf = self.read_configuration()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/default.py", line 33, in read_configuration
+    usercfg = self._import_config_module(configname)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 154, in _import_config_module
+    reraise(NotAPackage, NotAPackage(CONFIG_WITH_SUFFIX.format(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/vine/five.py", line 194, in reraise
+    raise value.with_traceback(tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 151, in _import_config_module
+    self.find_module(name)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/loaders/base.py", line 162, in find_module
+    return find_module(module)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/utils/imports.py", line 98, in find_module
+    raise NotAPackage(package)
+celery.utils.imports.NotAPackage: Error: Module 'flowerconfig.py' doesn't exist, or it's not a valid Python module name.
+Did you mean 'flowerconfig'?
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/bin/celery", line 10, in <module>
+    sys.exit(main())
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/__main__.py", line 16, in main
+    _main()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 322, in main
+    cmd.execute_from_commandline(argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 495, in execute_from_commandline
+    super(CeleryCommand, self).execute_from_commandline(argv)))
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/base.py", line 305, in execute_from_commandline
+    return self.handle_argv(self.prog_name, argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 487, in handle_argv
+    return self.execute(command, argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 415, in execute
+    return cls(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/flower/command.py", line 31, in run_from_argv
+    self.apply_options(prog_name, argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/flower/command.py", line 77, in apply_options
+    parse_config_file(os.path.abspath(options.conf), final=False)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/tornado/options.py", line 706, in parse_config_file
+    return options.parse_config_file(path, final=final)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/tornado/options.py", line 398, in parse_config_file
+    with open(path, "rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/lihong/Downloads/dispatch/djcelery/flowerconfig'
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/bin/celery", line 10, in <module>
+    sys.exit(main())
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/__main__.py", line 16, in main
+    _main()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 322, in main
+    cmd.execute_from_commandline(argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 495, in execute_from_commandline
+    super(CeleryCommand, self).execute_from_commandline(argv)))
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/base.py", line 305, in execute_from_commandline
+    return self.handle_argv(self.prog_name, argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 487, in handle_argv
+    return self.execute(command, argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 415, in execute
+    return cls(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/flower/command.py", line 31, in run_from_argv
+    self.apply_options(prog_name, argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/flower/command.py", line 77, in apply_options
+    parse_config_file(os.path.abspath(options.conf), final=False)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/tornado/options.py", line 706, in parse_config_file
+    return options.parse_config_file(path, final=final)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/tornado/options.py", line 398, in parse_config_file
+    with open(path, "rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/lihong/Downloads/dispatch/djcelery/flowerconfig'
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/bin/celery", line 10, in <module>
+    sys.exit(main())
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/__main__.py", line 16, in main
+    _main()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 322, in main
+    cmd.execute_from_commandline(argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 495, in execute_from_commandline
+    super(CeleryCommand, self).execute_from_commandline(argv)))
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/base.py", line 305, in execute_from_commandline
+    return self.handle_argv(self.prog_name, argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 487, in handle_argv
+    return self.execute(command, argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 415, in execute
+    return cls(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/flower/command.py", line 31, in run_from_argv
+    self.apply_options(prog_name, argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/flower/command.py", line 77, in apply_options
+    parse_config_file(os.path.abspath(options.conf), final=False)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/tornado/options.py", line 706, in parse_config_file
+    return options.parse_config_file(path, final=final)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/tornado/options.py", line 398, in parse_config_file
+    with open(path, "rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/lihong/Downloads/dispatch/djcelery/flowerconfig'
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/bin/celery", line 10, in <module>
+    sys.exit(main())
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/__main__.py", line 16, in main
+    _main()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 322, in main
+    cmd.execute_from_commandline(argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 495, in execute_from_commandline
+    super(CeleryCommand, self).execute_from_commandline(argv)))
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/base.py", line 305, in execute_from_commandline
+    return self.handle_argv(self.prog_name, argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 487, in handle_argv
+    return self.execute(command, argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/celery/bin/celery.py", line 415, in execute
+    return cls(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/flower/command.py", line 31, in run_from_argv
+    self.apply_options(prog_name, argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/flower/command.py", line 77, in apply_options
+    parse_config_file(os.path.abspath(options.conf), final=False)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/tornado/options.py", line 706, in parse_config_file
+    return options.parse_config_file(path, final=final)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/tornado/options.py", line 398, in parse_config_file
+    with open(path, "rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/lihong/Downloads/dispatch/djcelery/flowerconfig'
+[I 210116 10:49:13 command:135] Visit me at http://localhost:5555
+[I 210116 10:49:13 command:142] Broker: redis://127.0.0.1:6379/5
+[I 210116 10:49:13 command:143] Registered tasks: 
+    ['celery.accumulate',
+     'celery.backend_cleanup',
+     'celery.chain',
+     'celery.chord',
+     'celery.chord_unlock',
+     'celery.chunks',
+     'celery.group',
+     'celery.map',
+     'celery.starmap']
+[I 210116 10:49:13 mixins:229] Connected to redis://127.0.0.1:6379/5
+[W 210116 10:49:15 inspector:42] Inspect method registered failed
+[W 210116 10:49:15 inspector:42] Inspect method scheduled failed
+[W 210116 10:49:15 inspector:42] Inspect method conf failed
+[W 210116 10:49:15 inspector:42] Inspect method active_queues failed
+[W 210116 10:49:15 inspector:42] Inspect method stats failed
+[W 210116 10:49:15 inspector:42] Inspect method revoked failed
+[W 210116 10:49:15 inspector:42] Inspect method reserved failed
+[W 210116 10:49:15 inspector:42] Inspect method active failed
+[I 210116 10:54:16 command:41] SIGTERM detected, shutting down

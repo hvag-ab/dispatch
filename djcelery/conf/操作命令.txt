@@ -1,0 +1,102 @@
+5：supervisord运行和关闭
+service supervisor start
+service supervisor stop
+service supervisor restart
+
+或者
+
+sudo supervisord -c /etc/supervisor/supervisord.conf
+sudo supervisorctl shutdown
+$ supervisorctl status
+$ supervisorctl stop usercenter
+$ supervisorctl start usercenter
+$ supervisorctl restart usercenter
+$ supervisorctl reread
+$ supervisorctl update
+
+6：查看输出
+程序输出到日志文件
+
+cat /var/log/supervisor/printdate.log
+
+7：操作supervisord
+操作supervisord是通过supervisorctl
+7.1：你可以进入supervisorctl的控制台
+
+sudo supervisorctl
+
+
+7.2：也可以在shell中直接执行控制命令
+
+sudo supervisorctl status
+
+7.3：控制命令
+
+supervisorctl status
+查看哪些进程在运行 （最左边的列就是进程名字)
+
+
+停止某一个进程
+sudo supervisorctl stop 进程名字
+
+启动某个进程
+sudo supervisorctl start 进程名字
+
+重启某个进程
+sudo supervisorctl restart 进程名字
+
+重启所有属于名为groupworker这个分组的进程(start,restart同理)
+sudo supervisorctl stop groupworker:
+
+停止全部进程。注：start、restart、stop都不会载入最新的配置文件。
+sudo supervisorctl stop all
+
+载入最新的配置文件，停止原有进程并按新的配置启动、管理所有进程。
+sudo supervisorctl reload
+
+根据最新的配置文件，启动新配置或有改动的进程，配置没有改动的进程不会受影响而重启。
+sudo supervisorctl update
+
+关闭supervisord
+sudo supervisorctl shutdown
+
+注意：显示用stop停止掉的进程，用reload或者update都不会自动重启。
+
+
+centos7
+systemctl命令启动， 编辑配置文件
+
+vim /usr/lib/systemd/system/supervisord.service
+
+[Unit]
+Description=supervisor
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+ExecStop=/usr/bin/supervisorctl $OPTIONS shutdown
+ExecReload=/usr/bin/supervisorctl $OPTIONS reload
+KillMode=process
+Restart=on-failure
+RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target
+
+重reload unit： systemctl daemon-reload
+保存后使用如下命令操作supervisord
+
+systemctl stop supervisord
+systemctl start supervisord
+systemctl status supervisord
+systemctl reload supervisord
+systemctl restart supervisord
+
+
+# 如果出现celery beat pid占用问题   就用kill-9 全部杀掉
+ps -ef | grep celery
+
+ps auxww|grep "supervisor"|grep -v grep|awk '{print $2}'|xargs kill -9
+ps auxww|grep "celery worker"|grep -v grep|awk '{print $2}'|xargs kill -9
+ps auxww|grep "celery beat"|grep -v grep|awk '{print $2}'|xargs kill -9
