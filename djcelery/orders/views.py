@@ -1,19 +1,38 @@
 from django.http import JsonResponse
 from django.views import View
 from orders import tasks
+import logging
+import time
 
+js = logging.getLogger('js')
+tf = logging.getLogger('tf')
+stash = logging.getLogger('logstash')
 
 
 class TestCelery(View):
 
     def get(self, request, *args, **kwargs):
         h2 = tasks.sub.delay(23, 100)
+
+        js.error('test eror')
+        tf.error('test eror')
+        stash.error('test eror')
+
         # print(h2)
         # print(h2.wait()) 获取返回值 但是这是要等着celery执行完后 就不存在异步效果
         # h2 = tasks.sub.apply_async(queue='low_priorityy', args=(10, 50))
         # h2 = tasks.sub.apply_async(queue='high_priority', kwargs={'a': 10, 'b': 5})
         task_id = h2.task_id
         return JsonResponse(data={'task_id': task_id}, status=200)
+
+class Te(View):
+
+    def get(self, request, *args, **kwargs):
+
+        js.error(f'test eror-{time.time()}')
+        tf.error('test eror')
+        stash.error('test eror')
+        return JsonResponse(data={'task_id': 2}, status=200)
 
 
 

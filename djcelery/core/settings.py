@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ.get("SECRET_KEY",'fadfjweioafjwngifoaiwoanfofaw')
 
-DEBUG = int(os.environ.get("DEBUG", default=0))
+DEBUG = int(os.environ.get("DEBUG", default=1))
 
 # 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
@@ -136,6 +136,75 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = "/staticfiles/"
+
+
+
+BASE_LOG_DIR = os.path.join(BASE_DIR, "logs")
+print(BASE_LOG_DIR)
+# 如果地址不存在，则会自动创建log文件夹
+if not os.path.isdir(BASE_LOG_DIR):
+    os.mkdir(BASE_LOG_DIR)
+LOGGING = {
+    'version': 1,  # 保留字
+    'disable_existing_loggers': False,  # 禁用已经存在的logger实例
+    # 日志文件的格式
+    'formatters': {
+        # 详细的日志格式
+        'standard': {
+            'format': '[%(asctime)s][%(levelname)s][%(name)s][%(pathname)s][%(filename)s][%(funcName)s:%(lineno)d]'
+                      '[%(message)s]'
+        }
+    },
+    # 过滤器
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    # 处理器
+    'handlers': {
+        # 在终端打印
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],  # 只有在Django debug为True时才在屏幕打印日志
+            'class': 'logging.StreamHandler',  #
+            'formatter': 'standard',
+        },
+        # 默认的
+        'default': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',  # 保存到文件，自动切
+            'filename': os.path.join(BASE_LOG_DIR, "django_rotating.log"),  # 日志文件
+            'maxBytes': 1024 * 1024 * 50,  # 日志大小 50M
+            'backupCount': 3,  # 最多备份几个
+            'formatter': 'standard',
+            'encoding': 'utf-8',
+        },
+        'json': {
+            'level': 'INFO',
+            'class': 'core.json_handler.JsonRotatingFileHandler',  # 保存到文件，自动切
+            'filename': os.path.join(BASE_LOG_DIR, "django_json.json"),
+            'maxBytes': 1024 * 1024 * 50,  # 日志大小 50M
+            'backupCount': 5,
+        }
+    },
+    'loggers': {
+       # 默认的logger应用如下配置
+        '': {
+            'handlers': ['default', 'console'],  # 上线之后可以把'console'移除
+            'level': 'DEBUG',
+            'propagate': True,  # 向不向更高级别的logger传递
+        },
+        'tf': {
+            'handlers': ['default'],
+            'level': 'INFO'
+        },
+        'js': {
+            'handlers': ['json'],
+            'level': 'INFO'
+        }
+    },
+}
 
 
 
